@@ -1,0 +1,27 @@
+name: Muse Discovery Cortex Pilot
+
+on:
+  push:
+    paths:
+      - 'experiments/muse-discovery-cortex/**'
+      - '.github/workflows/muse-discovery-cortex.yml'
+  pull_request:
+    paths:
+      - 'experiments/muse-discovery-cortex/**'
+      - '.github/workflows/muse-discovery-cortex.yml'
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: experiments/muse-discovery-cortex
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Unit tests
+        run: python -m unittest -v
+      - name: Pilot benchmark
+        run: python benchmark.py
